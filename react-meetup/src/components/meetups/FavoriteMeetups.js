@@ -4,6 +4,7 @@ import classes from "./MeetupList.module.css";
 import { useFetch } from "../../util-hooks/useFetch";
 import { useEffect, useState } from "react";
 
+import { useSelector } from "react-redux";
 
 export default function FavoriteMeetupList() {
   const [favorites, setFavorites] = useState([])
@@ -11,10 +12,12 @@ export default function FavoriteMeetupList() {
     url: "/data.json",
   });
 
+  const favoriteList = useSelector((state) => state.favorites.value)
+
   useEffect(() => {
     if(data)
-      setFavorites(data.filter((meetup) => localStorage.getItem(meetup.id)))
-  }, [data, favorites])
+      setFavorites(data.filter((meetup) => favoriteList.includes(meetup.id)))
+  }, [data, favoriteList])
 
   if (!data) return <p>Loading...</p>;
 
