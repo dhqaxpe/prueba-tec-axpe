@@ -2,7 +2,7 @@ import classes from "./MeetupItem.module.css";
 import Card from "../ui/Card";
 
 import { useDispatch, useSelector } from "react-redux";
-import { add, remove } from "./favoriteReducer";
+import { add, remove } from "../../utils/favoriteReducer";
 
 export default function MeetupItem(props) {
   const favorites = useSelector((state) => state.favorites.value)
