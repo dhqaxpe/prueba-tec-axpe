@@ -11,7 +11,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="allmeetups" element={<AllMeetupsPage />} />
+          <Route index element={<AllMeetupsPage />} />
           <Route path="favorites" element={<FavoritesPage />} />
           <Route path="newmeetup" element={<NewMeetupsPage />} />
         </Route>
