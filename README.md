@@ -27,6 +27,9 @@ class RegisteredUser{
 }
 ```
 
+![prueba_axpe_uml](https://github.com/dhqaxpe/prueba-tec-axpe/assets/132882598/0c882484-f6e1-4d0b-a0b2-973e5a276303)
+
+
 # Ejercicio 2 : Prueba práctica
 
 ## Instalación
