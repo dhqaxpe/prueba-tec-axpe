@@ -2,7 +2,7 @@
 import classes from './Layout.module.css';
 
 import { Outlet } from 'react-router-dom';
-import MainNavigation from './MainNavigation';
+import MainNavigation from '../common/main-navigation/MainNavigation';
 
 export default function Layout() {
   return (

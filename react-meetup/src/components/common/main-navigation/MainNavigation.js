@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 
+import { useSelector } from "react-redux";
+
 import classes from "./MainNavigation.module.css";
 import { Link } from "react-router-dom";
 
-export default function MainNavigation({ setPage }) {
+export default function MainNavigation() {
 
   const [showNavbar, setShownavbar] = useState(true)
   const [currentScroll, setCurrentScroll] = useState(0)
+
+  const favoriteList = useSelector((state) => state.favorites.value)
 
   const whenScroll = () => {
     if (window.scrollY > currentScroll) {
@@ -34,7 +38,7 @@ export default function MainNavigation({ setPage }) {
       <nav>
         <ul>
           <li>
-            <Link to="/allmeetups">
+            <Link to="/">
               All Meetups
             </Link>
           </li>
@@ -47,7 +51,7 @@ export default function MainNavigation({ setPage }) {
           <li>
             <Link to="/favorites">
               My Favorites
-              <span className={classes.badge}>{0}</span>
+              <span className={classes.badge}>{favoriteList.length}</span>
             </Link>
           </li>
         </ul>

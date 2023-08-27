@@ -1,17 +1,12 @@
 import classes from "./MeetupItem.module.css";
 import Card from "../ui/Card";
-import { useEffect, useState } from "react";
+
+import { useDispatch, useSelector } from "react-redux";
+import { add, remove } from "../../utils/favoriteReducer";
 
 export default function MeetupItem(props) {
-  const [isOnFavorites, setIsOnFavorites] = useState(localStorage.getItem(props.id) ? true : false)
-
-  useEffect(() => {
-    if (isOnFavorites) { 
-      localStorage.setItem(props.id, props.id)
-    } else {
-      localStorage.removeItem(props.id, props.id)
-    }
-  }, [isOnFavorites, props.id])
+  const favorites = useSelector((state) => state.favorites.value)
+  const dispatch = useDispatch()
 
   return (
     <li className={classes.item} data-test='meet-up-item'>
@@ -24,14 +19,14 @@ export default function MeetupItem(props) {
           <address>{props.address}</address>
           <p>{props.description}</p>
         </div>
-        {!isOnFavorites
+        {!favorites.includes(props.id)
           ? 
           <div className={classes.actions}>
-            <button onClick={() => setIsOnFavorites(true)}>Add to favorites</button>
+            <button onClick={() => dispatch(add(props.id))}>Add to favorites</button>
           </div>
           :
           <div className={classes.actions}>
-            <button onClick={() => setIsOnFavorites(false)}>Remove from favorites</button>
+            <button onClick={() => dispatch(remove(props.id))}>Remove from favorites</button>
           </div>
         }
       </Card>
