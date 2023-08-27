@@ -1,70 +1,96 @@
-# Getting Started with Create React App
+*(copia de la explicación del ejercicio 2 en el README.md del repositorio)*
+# Prueba técnica Axpe
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- Daniel Heras Quesada
+- Desarrollador Front End
+- Agosto de 2023
 
-## Available Scripts
+## Instalación
 
-In the project directory, you can run:
+1. Clone el repositorio.
 
-### `npm start`
+```
+$ git clone https://github.com/dhqaxpe/prueba-tec-axpe.git
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+2. Acceda al directorio *react-meetup*
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```
+$ cd prueba-tec-axpe/react-meetup
+```
 
-### `npm test`
+3. Instale las dependencias del proyecto con npm o yarn.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+$ npm i
+o
+$ yarn install
+```
 
-### `npm run build`
+### Despliegue de desarrollo
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Ejecute la versión de desarrollo del proyecto
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+$ npm run start
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Despliegue de producción
 
-### `npm run eject`
+1. Construya la versión de producción del proyecto
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+$ npm run build
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. Instale el servidor a nivel de máquina (global).
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+# npm install -g serve
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+3. Ejecute el servidor con la versión ya compilada del proyecto.
 
-## Learn More
+```
+$ serve -s build
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Ejecución de los test
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. Ejecute los test
 
-### Code Splitting
+```
+$ npm run test
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Soluciones planteadas
 
-### Analyzing the Bundle Size
+### Animación de la barra superior 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- `src/components/common/main-navigation/MainNavigation.js` : Para la animación de la barra de navegación se ha implementado una función que determine la diferencia entre el desplazamiento vertical actual y el del instante anterior. Para ello maneja dos _hook de estado_, uno que contendrá un _número_ con la última posición del desplazamiento vertical de la página; y otro con un valor _lógico_ que determinará si se muestra o no la barra de navegación. Esta función se registrará como un `EventListener` asociado al evento `scroll` de la ventana.
+- `src/components/common/main-navigation/MainNavigation.module.css` : La animación como tal se hará aplicando una clase de css que determine la altura de la barra de navegación, dejando la clase base del contenedor con una altura igual a 0 y una propiedad _transition_ con las características de la animación. Esta es la forma más simple y efectiva de aplicar una animación básica, si la complejidad de la animación aumentase sería conveniente emplear `@keyframes` para componer la transición compleja.
 
-### Making a Progressive Web App
+### Navegación con parámetros de URL
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Para reflejar la navegación en la URL y que esta sirva también para crear accesos directos a los diferentes módulos de la página se ha usado React-Router, que se ha instalado como una dependencia externa `react-router-dom`.
+- `src/App.js` : Añado el componente _BrowserRouter_ sobre un conjunto de rutas definidas por _Routes_ y una ruta base _Route_ con `path="/"` para establecer con ella una ruta base sin parámetros de URL y aplicarle un layout a todas las rutas contenidas bajo ella. De esta forma defino todas las rutas que quiero admitir en la aplicación y aplico el layout deseado de modo uniforme.
+- `src/components/layout/Layout.js` : El nuevo layout deberá colocar el componente _Outlet_ de `react-router-dom` allí dónde quiera alojar el hijo del componente layout. _Outlet_ es el sustituto al _children_ del anterior.
 
-### Advanced Configuration
+### Gestión de estado de favoritos
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Para resolver el problema del estado global de aplicación que está asociado al mantenimiento en memoria una lista de favoritos he decidido usar _Redux_, importado como referencia externa de `react-redux`. Ya que las alternativas de usar una cascada de propiedades o el `localstorage` del navegador limitarían la capacidad de escalado del proyecto.
+- `src/utils/favoriteReducer.js` : He definido el _Reducer_ con las acciones de añadir y eliminar favorito.
+- `src/store.js` : He configurado una _Store_ para el proyecto con el reducer anterior.
+-  `src/index.js` : He añadido el proveedor de la _Store_ a toda la aplicación.
+Por último he usado los reducers previamente descritos en los distintos componentes de la aplicación para proveerla de un estado global centralizado.
 
-### Deployment
+## Testing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+He corregido los test previos, ya que fallaban desde la introducción de _Redux_, al necesitar varios de los componentes un proveedor. Además he añadido dos test que servirán para comprobar el correcto funcionamiento de la aplicación.
+- El primer grupo de test hará pruebas unitarias de los componentes que forman las páginas del proyecto.
+- El segundo comprobará que la Aplicación base concuerda con la snapshot.
+- El tercero comprobará que el componente de navegación está pudiendo acceder a la _store_ y mostrando adecuadamente el número de Meetups favoritos.
 
-### `npm run build` fails to minify
+## Organization
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+He hecho pequeños ajustes en la organización del proyecto para aumentar la claridad. Por miedo a conseguir el efecto contrario al ser este un proyecto estándar no he alterado el contenido del componente de meetups, pero sería conveniente agrupar ficheros de componente con su CSS asociado en un directorio exclusivo.
