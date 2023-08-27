@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import favoriteReducer from "./components/meetups/favoriteReducer";
+import favoriteReducer from "./utils/favoriteReducer";
 
 export default configureStore({
     reducer: {
